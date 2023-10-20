@@ -14,21 +14,11 @@ source $_ROOT_DIR/helpers.bash
 # NB using fork from slicemk b/c that can compile for his board
 #Z_REPO=https://github.com/zmkfirmware/zmk.git
 Z_REPO=https://github.com/slicemk/zmk
-Z_DIR="$HOME"/zmk
+Z_DIR="$_ROOT_DIR"/zmk
 Z_VENV=zmk
 
 set -ex
 
-# NB zmk uses 'main' not 'master'
-notify "updating $Z_REPO"
-if [[ ! -d $Z_DIR ]]; then
-	notify "\tgit clone $Z_REPO $Z_DIR"
-	git clone $Z_REPO $Z_DIR
-fi
-notify "\tgit checkout main -C $Z_DIR"
-git -C "$Z_DIR" checkout main
-notify "\tgit pull origin main -C $Z_DIR"
-git -C "$Z_DIR" pull origin main
 
 cd $Z_DIR
 notify "initialize ZMK"

@@ -50,25 +50,6 @@ update_zephyr ()
 	west update
 	west zephyr-export
 	pip install -r "$Z_SRC"/zephyr/scripts/requirements.txt
-		
-}
-
-
-# TODO consider installing to `~/.local` instead of `~`?
-# TODO move to it's own rule?
-# this produces   ~/.cmake/packages/Zephyr-sdk
-install_sdk ()
-{
-	cd ~
-	wget -c https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.15.0/zephyr-sdk-0.15.0_linux-x86_64.tar.gz
-	wget -O - https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.15.0/sha256.sum | shasum --check --ignore-missing
-	tar xvf zephyr-sdk-0.15.0_linux-x86_64.tar.gz
-	cd zephyr-sdk-0.15.0
-	./setup.sh
-	set -ex
-	sudo cp ~/zephyr-sdk-0.15.0/sysroots/x86_64-pokysdk-linux/usr/share/openocd/contrib/60-openocd.rules /etc/udev/rules.d
-	sudo udevadm control --reload
-	set +ex
 }
 
 
@@ -79,7 +60,3 @@ are_packages_missing "$Z_DEP"
 
 notify "updating zephyr project..."
 update_zephyr
-
-notify "installing SDK..."
-install_sdk
-
