@@ -1,6 +1,16 @@
 #!/usr/bin/make -f
 
-# compile the firmware
+# compile the keyboard firmware
+#     compiles the keyboard firmware w/ the custom keymap to `zmk.uf2`
+#     which can then be installed to the keyboard
+
+# zmk:                  keyboard software
+# zephyr-project:       microcontroller OS
+# zephyr-sdk:           zephyr dependency
+# west:                 version control / build tool, etc
+# pipx:                 manages cli python packages
+# zmk-nodefree-config:  headers for keymaps
+# config/:              directory of custom keymap
 
 
 SHELL := /bin/bash
@@ -24,16 +34,18 @@ endef
 .PHONY: uf2
 uf2: zmk.uf2
 
-zmk.uf2:
+zmk.uf2: $(ROOT_DIR)/config/slicemk_ergodox_dongle.keymap $(ROOT_DIR)/config/slicemk_ergodox_dongle.conf
 	source `which virtualenvwrapper.sh` && \
 	workon $(ZEPHYR_VENV) && \
-	ZCONFIG=$(ROOT_DIR)/ergodox-zmk-config/config \
-	Z_APP=$(ROOT_DIR)/zmk/app \
-	west build \
+	cd $(ROOT_DIR)/zmk/app && \
+		west build \
+		--pristine \
 		-s $(ROOT_DIR)/zmk/app \
 		-b $(BOARD) -- \
 		-DSHIELD=$(SHIELD) \
-		-DZMK_CONFIG=$(ROOT_DIR)/ergodox-zmk-config/config
+		-DZMK_CONFIG=$(ROOT_DIR)/config
+	cp $(ROOT_DIR)/zmk/app/build/zephyr/zmk.uf2 $(ROOT_DIR)/
+
 
 .PHONY: help
 help:                 ## usage
@@ -46,8 +58,10 @@ help:                 ## usage
 
 .PHONY: clean
 clean:
+	@# TODO move cleaning zmk & sdk to another rule, our primary goal is to build the zmk.uf2
 	rm -rf $(ZEPHYR_CMAKE)
 	rm -rf $(ZEPHYR_SDK_CMAKE)
+	rm -rf $(ROOT_DIR)/zmk.uf2
 
 
 .PHONY: submodules
@@ -85,7 +99,7 @@ $(ZEPHYR_SDK_CMAKE):
 
 
 .PHONY: zmk
-zmk: $(ZEPHYR_CMAKE) $(ZEPHYR_SDK_CMAKE)  # Zephyr Mechanical Keyboard Firmware
+zmk: $(ZEPHYR_CMAKE) $(ZEPHYR_SDK_CMAKE)  ## Zephyr Mechanical Keyboard Firmware
 	@# NOTE not sure what the best 'target' for this should be,
 	@# but west update appears to handle rebuilds so we can keep this as a PHONY target
 	@$(ROOT_DIR)/install_zmk.bash

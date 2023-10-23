@@ -1,4 +1,10 @@
-**/*.swp
+# firmware build target
+zmk.uf2
 
+# dependencies
 zephyrproject/
 zmk/
+
+# sundry temp files
+**/*.swp
+**/*.swo
