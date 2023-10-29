@@ -19,8 +19,9 @@ Z_VENV=zmk
 
 set -ex
 
-
+if [ ! -d $Z_DIR ]; then git clone $Z_REPO $Z_DIR; fi;
 cd $Z_DIR
+
 notify "initialize ZMK"
 # NB west init will fail if it already exists, but this is OK
 west init -l app/ 2> /dev/null || true

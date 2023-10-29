@@ -56,7 +56,9 @@ update_zephyr ()
 notify "compile zephyr..."
 
 notify "checking dependencies..."
+set -e
 are_packages_missing "$Z_DEP"
+set +e
 
 notify "updating zephyr project..."
 update_zephyr

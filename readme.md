@@ -31,4 +31,4 @@ make uf2    # the firmware
 - (todo) add copy of instructions
 - (todo) handle different board / shield options?
 - (todo) remove extraneous files
-
+- (todo) checkout zephyr, zmk, to specific branch using west
