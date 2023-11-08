@@ -127,7 +127,7 @@ ZMK_BEHAVIOR(hmr, hold_tap,
 				&bootloader
 				&none      &none     &none    &none     &none                   &none       &none  &none            &none     &none         &none        &none                &none                 &none
 				&sp GRAVE  &sp N1    &sp N2   &sp N3    &sp N4                  &sp N5      &trans &kp C_PLAY_PAUSE &sp N6    &sp N7        &sp N8       &sp N9               &sp N0                &sp BSLH
-				&kp ESC    &kp LT    &kp LBRC &kp LBKT  &kp MINUS               &none                               &none     &kp UNDER     &kp RBKT     &kp RBRC             &kp GT                &kp ENTER
+				&kp ESC    &kp LT    &sp LBKT &kp LBKT  &kp MINUS               &none                               &none     &sp MINUS     &kp RBKT     &sp RBKT             &kp GT                &kp ENTER
 				&kp LSHIFT &kp LCTRL &kp LALT &kp LMETA &kp PLUS                &none       &trans &kp C_NEXT       &none     &kp EQUAL     &kt RMETA    &kp RALT             &kp RCTRL             &kp RSHIFT
 				&none      &none     &none    &none     &none                                                                 &none         &none        &none                &none                 &none
 				                                                                &none       &none  &none            &none
